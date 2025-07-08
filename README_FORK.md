@@ -1,5 +1,10 @@
 # fastexcel-rw
 
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Python](https://img.shields.io/badge/python-3.9+-blue.svg)
+![Rust](https://img.shields.io/badge/rust-1.88.0-orange.svg)
+![Performance](https://img.shields.io/badge/performance-3.8x%20faster-brightgreen.svg)
+
 This is a fork of [ToucanToco/fastexcel](https://github.com/ToucanToco/fastexcel) with **Excel writing functionality** added.
 
 ## 🚀 What's New
@@ -20,8 +25,20 @@ This fork extends the original fastexcel library with:
 
 ## 🔧 Installation
 
+### Quick Install from GitHub
+
 ```bash
-# Install from source with writer feature
+pip install git+https://github.com/YOUR_USERNAME/fastexcel-rw.git
+```
+
+### Install from Source
+
+```bash
+# Clone the repository
+git clone https://github.com/YOUR_USERNAME/fastexcel-rw.git
+cd fastexcel-rw
+
+# Install with writer feature
 maturin develop --features writer
 
 # Or build wheel
