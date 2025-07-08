@@ -24,10 +24,10 @@ pip install fastexcel[writer]
 ### Create Simple Excel File
 
 ```python
-from fastexcel import create_writer
+from fastexcel import create_excel_writer
 
 # Create writer
-writer = create_writer("output.xlsx")
+writer = create_excel_writer("output.xlsx")
 
 # Prepare data
 data = [
@@ -47,9 +47,9 @@ writer.save()
 ### Write Multiple Worksheets
 
 ```python
-from fastexcel import create_writer
+from fastexcel import create_excel_writer
 
-writer = create_writer("multi_sheet.xlsx")
+writer = create_excel_writer("multi_sheet.xlsx")
 
 # First worksheet
 employee_data = [
@@ -72,7 +72,7 @@ writer.save()
 
 ```python
 import pandas as pd
-from fastexcel import create_writer
+from fastexcel import create_excel_writer
 
 # Create DataFrame
 df = pd.DataFrame({
@@ -82,14 +82,14 @@ df = pd.DataFrame({
 })
 
 # Write to Excel
-writer = create_writer("from_dataframe.xlsx")
+writer = create_excel_writer("from_dataframe.xlsx")
 writer.write_dataframe(df, "Products")
 writer.save()
 ```
 
 ## API Reference
 
-### `create_writer(file_path)`
+### `create_excel_writer(file_path)`
 
 Create a new Excel writer.
 
@@ -150,7 +150,7 @@ Writing performance based on `rust_xlsxwriter` is excellent:
 fastexcel's reading and writing features work perfectly together:
 
 ```python
-from fastexcel import read_excel, create_writer
+from fastexcel import read_excel, create_excel_writer
 
 # Read existing file
 reader = read_excel("input.xlsx")
@@ -161,7 +161,7 @@ df = sheet.to_pandas()
 df['New_Column'] = df['Value'] * 2
 
 # Write new file
-writer = create_writer("processed.xlsx")
+writer = create_excel_writer("processed.xlsx")
 writer.write_dataframe(df, "Processed_Data")
 writer.save()
 ```

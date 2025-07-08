@@ -1,4 +1,4 @@
-# fastexcel-writer
+# fastexcel-rw
 
 This is a fork of [ToucanToco/fastexcel](https://github.com/ToucanToco/fastexcel) with **Excel writing functionality** added.
 
@@ -129,8 +129,8 @@ This is a community fork. Contributions are welcome!
 
 ## 📊 Benchmarks
 
-| Operation | fastexcel-writer | xlsxwriter | openpyxl |
-|-----------|------------------|------------|----------|
+| Operation | fastexcel-rw | xlsxwriter | openpyxl |
+|-----------|---------------|------------|----------|
 | Write 10K rows | 0.5s | 1.9s | 4.7s |
 | Write 100K rows | 2.1s | 8.0s | 19.8s |
 | Memory usage | 45MB | 120MB | 180MB |
