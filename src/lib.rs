@@ -3,6 +3,10 @@ mod error;
 mod types;
 mod utils;
 
+// 添加写入功能的条件编译
+#[cfg(feature = "writer")]
+mod writer;
+
 use error::{ErrorContext, py_errors};
 use pyo3::prelude::*;
 use types::python::{
@@ -11,6 +15,10 @@ use types::python::{
     excelsheet::{CellError, CellErrors},
     table::ExcelTable,
 };
+
+// 条件导入写入相关类型
+#[cfg(feature = "writer")]
+use writer::ExcelWriter;
 
 /// Reads an excel file and returns an object allowing to access its sheets and a bit of metadata
 #[pyfunction]
@@ -57,6 +65,14 @@ fn _fastexcel(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<ExcelSheet>()?;
     m.add_class::<ExcelReader>()?;
     m.add_class::<ExcelTable>()?;
+    
+    // 添加写入功能支持
+    #[cfg(feature = "writer")]
+    {
+        m.add_class::<ExcelWriter>()?;
+        m.add_function(wrap_pyfunction!(writer::create_excel_writer, m)?)?;
+    }
+    
     m.add("__version__", get_version())?;
 
     // errors

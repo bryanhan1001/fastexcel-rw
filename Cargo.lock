@@ -428,6 +428,7 @@ dependencies = [
  "pyo3",
  "pyo3-log",
  "rstest",
+ "rust_xlsxwriter",
 ]
 
 [[package]]
@@ -909,6 +910,15 @@ dependencies = [
  "rustc_version",
  "syn",
  "unicode-ident",
+]
+
+[[package]]
+name = "rust_xlsxwriter"
+version = "0.89.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fb536e6aadfd6b6b754051e3c51530d4bcb40477832a45783395b462bf2265d7"
+dependencies = [
+ "zip",
 ]
 
 [[package]]

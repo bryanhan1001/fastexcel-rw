@@ -6,7 +6,7 @@ use pyo3::{
 use crate::error::{FastExcelError, FastExcelErrorKind, FastExcelResult, py_errors::IntoPyResult};
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone)]
-pub(crate) enum IdxOrName {
+pub enum IdxOrName {
     Idx(usize),
     Name(String),
 }

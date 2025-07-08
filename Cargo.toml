@@ -1,15 +1,20 @@
 [package]
 name = "fastexcel"
-version = "0.14.0"
+version = "0.15.0"
 rust-version = "1.85.0"
 edition = "2024"
 license = "MIT"
 homepage = "https://github.com/ToucanToco/fastexcel"
-repository = "https://github.com/ToucanToco/fastexcel.git"
-readme = "README.md"
+repository = "https://gitlab.com/YOUR_USERNAME/fastexcel-writer"
+readme = "README_FORK.md"
+description = "A fast Excel reader and writer for Python, with writer functionality added"
+authors = ["ToucanToco", "Your Name <your.email@example.com>"]
+keywords = ["excel", "xlsx", "arrow", "python", "rust"]
+categories = ["data-structures", "parser-implementations"]
 include = [
     "/pyproject.toml",
-    "/README.md",
+    "/README_FORK.md",
+    "/README_WRITER.md",
     "/LICENSE",
     "/Makefile",
     "/src",
@@ -34,6 +39,7 @@ chrono = { version = "^0.4.41", default-features = false }
 log = "0.4.27"
 pyo3 = { version = "^0.24.2", features = ["abi3-py39"] }
 pyo3-log = "^0.12.4"
+rust_xlsxwriter = { version = "0.89.0", optional = true }
 
 [dev-dependencies]
 pretty_assertions = "^1.4.1"
@@ -48,3 +54,4 @@ default = ["extension-module"]
 # interpreters, which allows us to instantiate Python objects in tests
 # (see https://pyo3.rs/v0.22.3/features#auto-initialize)
 tests = ["pyo3/auto-initialize"]
+writer = ["rust_xlsxwriter"]
