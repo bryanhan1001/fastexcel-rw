@@ -89,11 +89,26 @@ The CI/CD workflows have been updated to:
 - Added .nojekyll file for proper GitHub Pages support
 - Streamlined deployment process to gh-pages branch
 
+### Test Job Writer Feature Issue
+**Issue**: Writer tests failing in CI with ImportError
+**Error**: `ImportError: Writing functionality is not available. Please install fastexcel with writer support: pip install fastexcel[writer]`
+**Root Cause**: 
+- Package was built without writer Rust feature enabled
+- `dev-install` in Makefile only included pandas,polars but not writer feature
+- 17 writer tests were failing
+
+**Solution**:
+- Updated Makefile `dev-install` target to include writer feature: `maturin develop --uv -E pandas,polars -F writer`
+- Added `unset CONDA_PREFIX` to test and check-docs steps in CI.yml
+- Writer feature is now properly enabled during CI builds
+
 ### Verification
 ✅ **Lint**: All Python and Rust linting now passes (exit code 0)
 ✅ **Docs**: Documentation builds successfully and generates proper HTML files
 ✅ **Import**: Package imports correctly as `fastexcel_rw` with version 0.15.0
 ✅ **Functionality**: Core reading functionality works as expected
+✅ **Writer**: All writer tests pass (5 passed, 1 skipped)
+✅ **Writer Feature**: Writer functionality available in CI builds
 
 ## Next Steps
 1. Monitor GitHub Actions workflows to ensure they pass consistently
