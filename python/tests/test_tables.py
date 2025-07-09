@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from datetime import datetime
+
 import fastexcel_rw
 import pandas as pd
 import polars as pl

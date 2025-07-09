@@ -1,13 +1,30 @@
 import argparse
 from enum import Enum
 
-from readers import pyxl_read, xlrd_read
+import fastexcel_rw
 
 
 class Engine(str, Enum):
     FASTEXCEL = "fastexcel"
     XLRD = "xlrd"
     OPENPYXL = "pyxl"
+
+
+def fastexcel_read(file_path: str):
+    """Read Excel file using fastexcel_rw"""
+    return fastexcel_rw.read_excel(file_path).load_sheet(0).to_polars()
+
+
+def xlrd_read(file_path: str):
+    """Read Excel file using xlrd (placeholder)"""
+    # This is a placeholder - actual implementation would go here
+    raise NotImplementedError("xlrd reading not implemented")
+
+
+def pyxl_read(file_path: str):
+    """Read Excel file using pyxl (placeholder)"""
+    # This is a placeholder - actual implementation would go here
+    raise NotImplementedError("pyxl reading not implemented")
 
 
 def get_args() -> argparse.Namespace:

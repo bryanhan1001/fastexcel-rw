@@ -1,9 +1,7 @@
 
-from datetime import date, datetime, timedelta
-
-import pyarrow as pa
 
 import fastexcel_rw
+import pyarrow as pa
 
 from utils import path_for_fixture
 

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import fastexcel_rw
 import pytest
 from fastexcel_rw import (
     CannotRetrieveCellDataError,
@@ -20,7 +21,10 @@ def test_cannot_retrieve_data_error() -> None:
     # is returned
     with pytest.raises(
         CannotRetrieveCellDataError,
-        match="The requested sheet does not contain data, and was opened for exploration purposes only",
+        match=(
+            "The requested sheet does not contain data, and was opened for "
+            "exploration purposes only"
+        ),
     ):
         excel_reader.load_sheet(
             0,

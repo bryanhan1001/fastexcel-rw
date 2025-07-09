@@ -1,4 +1,6 @@
 
+import fastexcel_rw
+
 from utils import path_for_fixture
 
 

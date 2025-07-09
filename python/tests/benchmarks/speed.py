@@ -1,30 +1,28 @@
 """
-Compare read performance with fastexcel, xlrd and different openpyxl options
+Compare read performance with fastexcel_rw, xlrd and different openpyxl options
 """
 
 from __future__ import annotations
 
 import fastexcel_rw
-import pandas as pd
-import polars as pl
 import pytest
 
-from utils import path_for_fixture
 
-
-def fastexcel_read(file_path: str) -> pl.DataFrame:
+def fastexcel_read(file_path: str):
     """Read Excel file using fastexcel_rw"""
     return fastexcel_rw.read_excel(file_path).load_sheet(0).to_polars()
 
 
-def pd_read_excel(file_path: str) -> pd.DataFrame:
-    """Read Excel file using pandas"""
-    return pd.read_excel(file_path)
+def pyxl_read(file_path: str):
+    """Read Excel file using pyxl (placeholder)"""
+    # This is a placeholder - actual implementation would go here
+    raise NotImplementedError("pyxl reading not implemented")
 
 
-def pl_read_excel(file_path: str) -> pl.DataFrame:
-    """Read Excel file using polars"""
-    return pl.read_excel(file_path)
+def xlrd_read(file_path: str):
+    """Read Excel file using xlrd (placeholder)"""
+    # This is a placeholder - actual implementation would go here
+    raise NotImplementedError("xlrd reading not implemented")
 
 
 @pytest.fixture
