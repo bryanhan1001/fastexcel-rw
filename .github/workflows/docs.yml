@@ -14,13 +14,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          # Fetch all branches
           fetch-depth: 0
-          
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          
       - name: Set up rust toolchain
         uses: dtolnay/rust-toolchain@stable
         
@@ -32,6 +31,7 @@ jobs:
       - name: Create gh-pages branch if it doesn't exist
         run: |
           if ! git ls-remote --heads origin gh-pages | grep -q gh-pages; then
+
             echo "Creating gh-pages branch..."
             git checkout --orphan gh-pages
             git rm -rf . || true

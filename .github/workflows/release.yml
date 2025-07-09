@@ -15,9 +15,15 @@ jobs:
         architecture: [x86-64, aarch64]
     steps:
     - uses: actions/checkout@v4
+<<<<<<< HEAD
     - uses: dtolnay/rust-toolchain@nightly
       with:
         toolchain: nightly
+=======
+    - uses: dtolnay/rust-toolchain@stable
+      with:
+        toolchain: stable
+>>>>>>> main
     - name: Show Rust version
       run: |
         rustc --version
@@ -43,9 +49,15 @@ jobs:
         architecture: [x86-64, aarch64]
     steps:
     - uses: actions/checkout@v4
+<<<<<<< HEAD
     - uses: dtolnay/rust-toolchain@nightly
       with:
         toolchain: nightly
+=======
+    - uses: dtolnay/rust-toolchain@stable
+      with:
+        toolchain: stable
+>>>>>>> main
     - name: Show Rust version
       run: |
         rustc --version
@@ -70,9 +82,9 @@ jobs:
         python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
     steps:
     - uses: actions/checkout@v4
-    - uses: dtolnay/rust-toolchain@nightly
+    - uses: dtolnay/rust-toolchain@stable
       with:
-        toolchain: nightly
+        toolchain: stable
     - name: Show Rust version
       run: |
         rustc --version
@@ -92,9 +104,9 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@nightly
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: nightly
+          toolchain: stable
       - name: Show Rust version
         run: |
           rustc --version
@@ -117,10 +129,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [linux, macos, windows, sdist]
     steps:
-    - uses: dtolnay/rust-toolchain@nightly
+    - uses: dtolnay/rust-toolchain@stable
       with:
-        toolchain: nightly
-    
+        toolchain: stable
     # Download all artifacts
     - name: Download all artifacts
       uses: actions/download-artifact@v4
