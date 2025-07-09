@@ -28,14 +28,14 @@ This fork extends the original fastexcel library with:
 ### Quick Install from GitHub
 
 ```bash
-pip install git+https://github.com/YOUR_USERNAME/fastexcel-rw.git
+pip install git+https://github.com/bryanhan1001/fastexcel-rw.git
 ```
 
 ### Install from Source
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/fastexcel-rw.git
+git clone https://github.com/bryanhan1001/fastexcel-rw.git
 cd fastexcel-rw
 
 # Install with writer feature
