@@ -58,7 +58,7 @@ jobs:
           pip install -r build-requirements.txt
           
           # Try to build the package
-          echo "Building fastexcel package..."
+          echo "Building fastexcel_rw package..."
           if ! maturin develop --uv --features writer; then
             echo "Build with uv failed, trying without..."
             if ! maturin develop --features writer; then
@@ -66,7 +66,7 @@ jobs:
               if ! maturin develop; then
                 echo "All build attempts failed, creating placeholder docs..."
                 mkdir -p docs
-                echo "# fastexcel-rw Documentation" > docs/index.html
+                echo "# fastexcel_rw Documentation" > docs/index.html
                 echo "<p>Documentation build failed - package could not be built</p>" >> docs/index.html
                 echo "<p>Please check the build logs for more details</p>" >> docs/index.html
                 exit 0
@@ -85,16 +85,16 @@ jobs:
           # Generate documentation
           echo "Generating documentation..."
           if command -v pdoc &> /dev/null; then
-            pdoc -o docs python/fastexcel --html || {
+            pdoc -o docs python/fastexcel_rw --html || {
               echo "pdoc failed, creating basic documentation..."
               mkdir -p docs
-              echo "# fastexcel-rw Documentation" > docs/index.html
+              echo "# fastexcel_rw Documentation" > docs/index.html
               echo "<p>API documentation generation failed</p>" >> docs/index.html
             }
           else
             echo "pdoc not available, creating placeholder docs..."
             mkdir -p docs
-            echo "# fastexcel-rw Documentation" > docs/index.html
+            echo "# fastexcel_rw Documentation" > docs/index.html
             echo "<p>Documentation tools not available</p>" >> docs/index.html
           fi
           
@@ -104,7 +104,7 @@ jobs:
           if [ ! -d "docs" ]; then
             echo "No docs directory found, creating placeholder..."
             mkdir -p docs
-            echo "# fastexcel-rw Documentation" > docs/index.html
+            echo "# fastexcel_rw Documentation" > docs/index.html
             echo "<p>No documentation generated</p>" >> docs/index.html
           fi
           

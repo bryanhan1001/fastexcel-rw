@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import date, datetime
 from typing import Any, Literal
 
-import fastexcel
+import fastexcel_rw
 import numpy as np
 import pandas as pd
 import polars as pl
@@ -49,7 +49,7 @@ def expected_data() -> dict[str, list[Any]]:
 
 
 def test_sheet_with_mixed_dtypes(expected_data: dict[str, list[Any]]) -> None:
-    excel_reader = fastexcel.read_excel(path_for_fixture("fixture-multi-dtypes-columns.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-multi-dtypes-columns.xlsx"))
     sheet = excel_reader.load_sheet(0)
 
     pd_df = sheet.to_pandas()
@@ -62,7 +62,7 @@ def test_sheet_with_mixed_dtypes(expected_data: dict[str, list[Any]]) -> None:
 
 
 def test_sheet_with_mixed_dtypes_and_sample_rows(expected_data: dict[str, list[Any]]) -> None:
-    excel_reader = fastexcel.read_excel(path_for_fixture("fixture-multi-dtypes-columns.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-multi-dtypes-columns.xlsx"))
 
     # Since we skip rows here, the dtypes should be correctly guessed, even if we only check 5 rows
     sheet = excel_reader.load_sheet(0, schema_sample_rows=5, skip_rows=5)
@@ -147,13 +147,13 @@ def test_sheet_with_mixed_dtypes_and_sample_rows(expected_data: dict[str, list[A
 )
 def test_sheet_with_mixed_dtypes_specify_dtypes(
     dtype_by_index: bool,
-    dtype: fastexcel.DType,
+    dtype: fastexcel_rw.DType,
     expected_data: list[Any],
     expected_pd_dtype: str,
     expected_pl_dtype: pl.DataType,
 ) -> None:
-    dtypes: fastexcel.DTypeMap = {0: dtype} if dtype_by_index else {"Employee ID": dtype}
-    excel_reader = fastexcel.read_excel(path_for_fixture("fixture-multi-dtypes-columns.xlsx"))
+    dtypes: fastexcel_rw.DTypeMap = {0: dtype} if dtype_by_index else {"Employee ID": dtype}
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-multi-dtypes-columns.xlsx"))
     sheet = excel_reader.load_sheet(0, dtypes=dtypes, n_rows=5)
     assert sheet.specified_dtypes == dtypes
 
@@ -179,12 +179,12 @@ def test_sheet_with_mixed_dtypes_specify_dtypes(
     ],
 )
 def test_sheet_datetime_conversion(
-    dtypes: fastexcel.DTypeMap | None,
+    dtypes: fastexcel_rw.DTypeMap | None,
     expected: Any,
     expected_pd_dtype: str,
     expected_pl_dtype: pl.DataType,
 ) -> None:
-    excel_reader = fastexcel.read_excel(path_for_fixture("fixture-multi-dtypes-columns.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-multi-dtypes-columns.xlsx"))
 
     sheet = excel_reader.load_sheet(0, dtypes=dtypes)
     assert sheet.specified_dtypes == dtypes
@@ -202,7 +202,7 @@ def test_sheet_datetime_conversion(
 def test_dtype_coercion_behavior__coerce(
     dtype_coercion: Literal["coerce"] | None, eager: bool
 ) -> None:
-    excel_reader = fastexcel.read_excel(path_for_fixture("fixture-multi-dtypes-columns.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-multi-dtypes-columns.xlsx"))
 
     kwargs = {"dtype_coercion": dtype_coercion} if dtype_coercion else {}
     sheet = (
@@ -223,10 +223,10 @@ def test_dtype_coercion_behavior__coerce(
 
 @pytest.mark.parametrize("eager", [True, False])
 def test_dtype_coercion_behavior__strict_sampling_eveything(eager: bool) -> None:
-    excel_reader = fastexcel.read_excel(path_for_fixture("fixture-multi-dtypes-columns.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-multi-dtypes-columns.xlsx"))
 
     with pytest.raises(
-        fastexcel.UnsupportedColumnTypeCombinationError, match="type coercion is strict"
+        fastexcel_rw.UnsupportedColumnTypeCombinationError, match="type coercion is strict"
     ):
         if eager:
             excel_reader.load_sheet_eager(0, dtype_coercion="strict")
@@ -236,7 +236,7 @@ def test_dtype_coercion_behavior__strict_sampling_eveything(eager: bool) -> None
 
 @pytest.mark.parametrize("eager", [True, False])
 def test_dtype_coercion_behavior__strict_sampling_limit(eager: bool) -> None:
-    excel_reader = fastexcel.read_excel(path_for_fixture("fixture-multi-dtypes-columns.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-multi-dtypes-columns.xlsx"))
 
     sheet = (
         excel_reader.load_sheet_eager(0, dtype_coercion="strict", schema_sample_rows=5)
@@ -261,52 +261,52 @@ def test_dtype_coercion_behavior__strict_sampling_limit(eager: bool) -> None:
 
 
 def test_one_dtype_for_all() -> None:
-    excel_reader = fastexcel.read_excel(path_for_fixture("fixture-multi-dtypes-columns.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-multi-dtypes-columns.xlsx"))
     sheet = excel_reader.load_sheet(0, dtypes="string")
     assert sheet.available_columns() == [
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="Employee ID",
             index=0,
             dtype="string",
             dtype_from="provided_for_all",
             column_name_from="looked_up",
         ),
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="Employee Name",
             index=1,
             dtype="string",
             dtype_from="provided_for_all",
             column_name_from="looked_up",
         ),
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="Date",
             index=2,
             dtype="string",
             dtype_from="provided_for_all",
             column_name_from="looked_up",
         ),
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="Details",
             index=3,
             dtype="string",
             dtype_from="provided_for_all",
             column_name_from="looked_up",
         ),
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="Asset ID",
             index=4,
             dtype="string",
             dtype_from="provided_for_all",
             column_name_from="looked_up",
         ),
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="Mixed dates",
             index=5,
             dtype="string",
             dtype_from="provided_for_all",
             column_name_from="looked_up",
         ),
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="Mixed bools",
             index=6,
             dtype="string",
@@ -323,12 +323,12 @@ def test_fallback_infer_dtypes(mocker: MockerFixture) -> None:
 
     logger_instance_mock = mocker.patch("logging.getLogger", autospec=True).return_value
 
-    excel_reader = fastexcel.read_excel(path_for_fixture("infer-dtypes-fallback.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("infer-dtypes-fallback.xlsx"))
     sheet = excel_reader.load_sheet(0)
 
     # Ensure a warning message was logged to explain the fallback to string
     logger_instance_mock.makeRecord.assert_called_once_with(
-        "fastexcel.types.dtype",
+        "fastexcel_rw.types.dtype",
         logging.WARNING,
         mocker.ANY,
         mocker.ANY,
@@ -338,14 +338,14 @@ def test_fallback_infer_dtypes(mocker: MockerFixture) -> None:
     )
 
     assert sheet.available_columns() == [
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="id",
             index=0,
             dtype="float",
             dtype_from="guessed",
             column_name_from="looked_up",
         ),
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="label",
             index=1,
             dtype="string",
@@ -477,10 +477,10 @@ def test_fallback_infer_dtypes(mocker: MockerFixture) -> None:
     ],
 )
 def test_to_arrow_with_errors(
-    dtype: fastexcel.DType,
+    dtype: fastexcel_rw.DType,
     expected_data: list[Any],
 ):
-    excel_reader = fastexcel.read_excel(path_for_fixture("fixture-type-errors.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-type-errors.xlsx"))
     rb, cell_errors = excel_reader.load_sheet(0, dtypes={"Column": dtype}).to_arrow_with_errors()
 
     pd_df = rb.to_pandas()

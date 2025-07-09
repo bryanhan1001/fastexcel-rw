@@ -1,5 +1,5 @@
 [package]
-name = "fastexcel"
+name = "fastexcel_rw"
 version = "0.15.0"
 rust-version = "1.85.0"
 edition = "2024"
@@ -18,7 +18,7 @@ include = [
     "/LICENSE",
     "/Makefile",
     "/src",
-    "/python/fastexcel",
+    "/python/fastexcel_rw",
     "!__pycache__",
     "!*.pyc",
     "!*.so",
@@ -26,7 +26,7 @@ include = [
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
-name = "fastexcel"
+name = "fastexcel_rw"
 crate-type = ["cdylib"]
 
 [dependencies]

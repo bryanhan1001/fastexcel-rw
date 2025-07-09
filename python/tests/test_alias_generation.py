@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import fastexcel
+import fastexcel_rw
 import pandas as pd
 import polars as pl
 import pytest
@@ -14,7 +14,7 @@ from utils import path_for_fixture
     "use_columns", [None, [0, 1, 2], ["col", "col_1", "col_2"], [0, "col_1", 2]]
 )
 def test_alias_generation_with_use_columns(use_columns: list[str] | list[int] | None) -> None:
-    excel_reader = fastexcel.read_excel(
+    excel_reader = fastexcel_rw.read_excel(
         path_for_fixture("fixture-single-sheet-duplicated-columns.xlsx")
     )
 

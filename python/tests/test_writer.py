@@ -1,14 +1,14 @@
-import pytest
-import tempfile
 import os
+import tempfile
 from pathlib import Path
 
+import pytest
+
 # Writer feature testing requires writer feature
-pytest.importorskip("fastexcel", reason="fastexcel writer not available")
+pytest.importorskip("fastexcel_rw", reason="fastexcel_rw writer not available")
 
 try:
-    import fastexcel
-    from fastexcel import create_writer
+    from fastexcel_rw import create_writer
     WRITER_AVAILABLE = True
 except ImportError:
     WRITER_AVAILABLE = False
@@ -131,4 +131,4 @@ class TestExcelWriter:
 def test_writer_not_available():
     """测试在没有写入功能时的错误处理"""
     with pytest.raises(ImportError, match="Writing functionality is not available"):
-        create_writer("test.xlsx") 
+        create_writer("test.xlsx")

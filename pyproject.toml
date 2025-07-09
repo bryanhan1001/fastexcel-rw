@@ -39,7 +39,7 @@ Issues = "https://github.com/bryanhan1001/fastexcel-rw"
 
 [tool.maturin]
 python-source = "python"
-module-name = "fastexcel._fastexcel"
+module-name = "fastexcel_rw._fastexcel"
 features = ["pyo3/extension-module"]
 
 [tool.mypy]

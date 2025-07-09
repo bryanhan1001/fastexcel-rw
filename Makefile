@@ -11,7 +11,7 @@ clippy		= cargo clippy
 fmt		= cargo fmt
 cargo-test	= cargo test --no-default-features --features tests
 ## Docs
-pdoc	= pdoc -o docs python/fastexcel
+pdoc	= pdoc -o docs python/fastexcel_rw
 
 lint-python:
 	$(ruff)
@@ -29,7 +29,7 @@ format-python:
 
 format-rust:
 	$(fmt)
-	$(clippy) --fix --lib -p fastexcel --allow-dirty --allow-staged
+	$(clippy) --fix --lib -p fastexcel_rw --allow-dirty --allow-staged
 
 format: format-rust format-python
 

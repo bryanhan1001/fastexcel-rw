@@ -1,6 +1,6 @@
-from datetime import datetime
+from __future__ import annotations
 
-import fastexcel
+import fastexcel_rw
 import pandas as pd
 import polars as pl
 import pytest
@@ -12,7 +12,7 @@ from utils import path_for_fixture
 
 @pytest.mark.parametrize("path", ("sheet-with-tables.xlsx",))
 def test_table_names(path: str) -> None:
-    excel_reader = fastexcel.read_excel(path_for_fixture(path))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture(path))
     table_names = excel_reader.table_names()
 
     assert table_names == ["users"]
@@ -20,7 +20,7 @@ def test_table_names(path: str) -> None:
 
 @pytest.mark.parametrize("path", ("sheet-with-tables.xlsx",))
 def test_table_names_with_sheet_name(path: str) -> None:
-    excel_reader = fastexcel.read_excel(path_for_fixture(path))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture(path))
     table_names = excel_reader.table_names("sheet1")
 
     assert table_names == ["users"]
@@ -32,35 +32,35 @@ def test_table_names_with_sheet_name(path: str) -> None:
 
 @pytest.mark.parametrize("path", ("sheet-with-tables.xlsx",))
 def test_load_table(path: str) -> None:
-    excel_reader = fastexcel.read_excel(path_for_fixture(path))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture(path))
     users_tbl = excel_reader.load_table("users")
 
     assert users_tbl.name == "users"
     assert users_tbl.sheet_name == "sheet1"
     assert users_tbl.specified_dtypes is None
     assert users_tbl.available_columns() == [
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="User Id",
             index=0,
             dtype="float",
             dtype_from="guessed",
             column_name_from="provided",
         ),
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="FirstName",
             index=1,
             dtype="string",
             dtype_from="guessed",
             column_name_from="provided",
         ),
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="LastName",
             index=2,
             dtype="string",
             dtype_from="guessed",
             column_name_from="provided",
         ),
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="Date",
             index=3,
             dtype="datetime",

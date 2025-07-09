@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 """
-fastexcel Writer Example
+fastexcel_rw Writer Example
 
-This example demonstrates how to use fastexcel's writer functionality to create Excel files.
-Requires writer feature: pip install fastexcel[writer]
+This example demonstrates how to use fastexcel_rw's writer functionality to create Excel files.
+Requires writer feature: pip install fastexcel_rw[writer]
 """
 
 import sys
 from pathlib import Path
 
 try:
-    from fastexcel import create_writer, read_excel
+    from fastexcel_rw import create_writer, read_excel
 except ImportError:
-    print("Please install fastexcel: pip install fastexcel[writer]")
+    print("Please install fastexcel_rw: pip install fastexcel_rw[writer]")
     sys.exit(1)
 
 
@@ -100,7 +100,7 @@ def read_and_verify(file_path):
 
 def main():
     """Main function"""
-    print("fastexcel Writer Example")
+    print("fastexcel_rw Writer Example")
     print("=" * 40)
     
     try:

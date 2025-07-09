@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from datetime import date, datetime, timedelta
-
-import fastexcel
+import fastexcel_rw
 import numpy as np
 import pandas as pd
 import polars as pl
+import pytest
 from pandas.testing import assert_frame_equal as pd_assert_frame_equal
 from polars.datatypes import DataType as PolarsDataType
 from polars.datatypes import Date as PlDate
@@ -18,7 +17,7 @@ from utils import path_for_fixture
 
 
 def test_sheet_with_different_time_types() -> None:
-    excel_reader = fastexcel.read_excel(path_for_fixture("dates.ods"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("dates.ods"))
     sheet = excel_reader.load_sheet_by_idx(0)
 
     pd_df = sheet.to_pandas()
@@ -64,7 +63,7 @@ def test_sheet_with_different_time_types() -> None:
 
 
 def test_sheet_with_offset_header_row_and_durations() -> None:
-    excel_reader = fastexcel.read_excel(path_for_fixture("single-sheet-skip-rows-durations.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("single-sheet-skip-rows-durations.xlsx"))
     sheet = excel_reader.load_sheet(0, header_row=10)
 
     pd_df = sheet.to_pandas()

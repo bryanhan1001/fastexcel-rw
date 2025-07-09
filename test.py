@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 
-import fastexcel
+import fastexcel_rw
 
 
 def get_args() -> argparse.Namespace:
@@ -24,7 +24,7 @@ def get_args() -> argparse.Namespace:
 
 def main():
     args = get_args()
-    excel_file = fastexcel.read_excel(args.file)
+    excel_file = fastexcel_rw.read_excel(args.file)
     use_columns = args.column or None
 
     if args.print_tables:

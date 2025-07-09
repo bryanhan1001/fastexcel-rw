@@ -4,7 +4,7 @@ from __future__ import annotations
 import re
 from typing import Any
 
-import fastexcel
+import fastexcel_rw
 import pandas as pd
 import polars as pl
 import pytest
@@ -15,25 +15,25 @@ from utils import path_for_fixture
 
 
 @pytest.fixture
-def excel_reader_single_sheet() -> fastexcel.ExcelReader:
-    return fastexcel.read_excel(path_for_fixture("fixture-single-sheet.xlsx"))
+def excel_reader_single_sheet() -> fastexcel_rw.ExcelReader:
+    return fastexcel_rw.read_excel(path_for_fixture("fixture-single-sheet.xlsx"))
 
 
 @pytest.fixture
-def expected_column_info() -> list[fastexcel.ColumnInfo]:
+def expected_column_info() -> list[fastexcel_rw.ColumnInfo]:
     return [
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="Month", index=0, column_name_from="looked_up", dtype="float", dtype_from="guessed"
         ),
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="Year", index=1, column_name_from="looked_up", dtype="float", dtype_from="guessed"
         ),
     ]
 
 
 def test_single_sheet_all_columns(
-    excel_reader_single_sheet: fastexcel.ExcelReader,
-    expected_column_info: list[fastexcel.ColumnInfo],
+    excel_reader_single_sheet: fastexcel_rw.ExcelReader,
+    expected_column_info: list[fastexcel_rw.ColumnInfo],
 ) -> None:
     sheet = excel_reader_single_sheet.load_sheet(0)
 
@@ -57,8 +57,8 @@ def test_single_sheet_all_columns(
 
 
 def test_single_sheet_subset_by_str(
-    excel_reader_single_sheet: fastexcel.ExcelReader,
-    expected_column_info: list[fastexcel.ColumnInfo],
+    excel_reader_single_sheet: fastexcel_rw.ExcelReader,
+    expected_column_info: list[fastexcel_rw.ColumnInfo],
 ) -> None:
     expected = {"Month": [1.0, 2.0], "Year": [2019.0, 2020.0]}
 
@@ -78,8 +78,8 @@ def test_single_sheet_subset_by_str(
 
 
 def test_single_sheet_subset_by_index(
-    excel_reader_single_sheet: fastexcel.ExcelReader,
-    expected_column_info: list[fastexcel.ColumnInfo],
+    excel_reader_single_sheet: fastexcel_rw.ExcelReader,
+    expected_column_info: list[fastexcel_rw.ColumnInfo],
 ) -> None:
     expected = {"Month": [1.0, 2.0], "Year": [2019.0, 2020.0]}
 
@@ -98,8 +98,8 @@ def test_single_sheet_subset_by_index(
 
 
 @pytest.fixture
-def excel_reader_single_sheet_with_unnamed_columns() -> fastexcel.ExcelReader:
-    return fastexcel.read_excel(path_for_fixture("fixture-multi-sheet.xlsx"))
+def excel_reader_single_sheet_with_unnamed_columns() -> fastexcel_rw.ExcelReader:
+    return fastexcel_rw.read_excel(path_for_fixture("fixture-multi-sheet.xlsx"))
 
 
 @pytest.fixture
@@ -114,38 +114,38 @@ def single_sheet_with_unnamed_columns_expected() -> dict[str, list[Any]]:
 
 
 @pytest.fixture
-def sheet_with_unnamed_columns_expected_column_info() -> list[fastexcel.ColumnInfo]:
+def sheet_with_unnamed_columns_expected_column_info() -> list[fastexcel_rw.ColumnInfo]:
     return [
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="col1", index=0, column_name_from="looked_up", dtype="float", dtype_from="guessed"
         ),
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="__UNNAMED__1",
             index=1,
             column_name_from="generated",
             dtype="float",
             dtype_from="guessed",
         ),
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="col3", index=2, column_name_from="looked_up", dtype="string", dtype_from="guessed"
         ),
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="__UNNAMED__3",
             index=3,
             column_name_from="generated",
             dtype="float",
             dtype_from="guessed",
         ),
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="col5", index=4, column_name_from="looked_up", dtype="string", dtype_from="guessed"
         ),
     ]
 
 
 def test_single_sheet_with_unnamed_columns(
-    excel_reader_single_sheet_with_unnamed_columns: fastexcel.ExcelReader,
+    excel_reader_single_sheet_with_unnamed_columns: fastexcel_rw.ExcelReader,
     single_sheet_with_unnamed_columns_expected: dict[str, list[Any]],
-    sheet_with_unnamed_columns_expected_column_info: list[fastexcel.ColumnInfo],
+    sheet_with_unnamed_columns_expected_column_info: list[fastexcel_rw.ColumnInfo],
 ) -> None:
     use_columns_str = ["col1", "col3", "__UNNAMED__3"]
     use_columns_idx = [0, 2, 3]
@@ -181,9 +181,9 @@ def test_single_sheet_with_unnamed_columns(
 
 
 def test_single_sheet_with_unnamed_columns_and_pagination(
-    excel_reader_single_sheet_with_unnamed_columns: fastexcel.ExcelReader,
+    excel_reader_single_sheet_with_unnamed_columns: fastexcel_rw.ExcelReader,
     single_sheet_with_unnamed_columns_expected: dict[str, list[Any]],
-    sheet_with_unnamed_columns_expected_column_info: list[fastexcel.ColumnInfo],
+    sheet_with_unnamed_columns_expected_column_info: list[fastexcel_rw.ColumnInfo],
 ) -> None:
     use_columns_str = ["col1", "col3", "__UNNAMED__3"]
     use_columns_idx = [0, 2, 3]
@@ -236,7 +236,7 @@ def test_single_sheet_with_unnamed_columns_and_pagination(
 
 
 def test_single_sheet_with_unnamed_columns_and_pagination_and_column_names(
-    excel_reader_single_sheet_with_unnamed_columns: fastexcel.ExcelReader,
+    excel_reader_single_sheet_with_unnamed_columns: fastexcel_rw.ExcelReader,
 ) -> None:
     use_columns_str = ["col0", "col2", "col3"]
     use_columns_idx = [0, 2, 3]
@@ -250,7 +250,7 @@ def test_single_sheet_with_unnamed_columns_and_pagination_and_column_names(
 
     # skipping the header row only
     with pytest.raises(
-        fastexcel.InvalidParametersError,
+        fastexcel_rw.InvalidParametersError,
         match='use_columns can only contain integers when used with columns_names, got "col0"',
     ):
         excel_reader_single_sheet_with_unnamed_columns.load_sheet(
@@ -281,9 +281,9 @@ def test_single_sheet_with_unnamed_columns_and_pagination_and_column_names(
 
 
 def test_single_sheet_with_unnamed_columns_and_str_range(
-    excel_reader_single_sheet_with_unnamed_columns: fastexcel.ExcelReader,
+    excel_reader_single_sheet_with_unnamed_columns: fastexcel_rw.ExcelReader,
     single_sheet_with_unnamed_columns_expected: dict[str, list[Any]],
-    sheet_with_unnamed_columns_expected_column_info: list[fastexcel.ColumnInfo],
+    sheet_with_unnamed_columns_expected_column_info: list[fastexcel_rw.ColumnInfo],
 ) -> None:
     use_columns_str = "A,C:E"
     expected = {
@@ -304,53 +304,53 @@ def test_single_sheet_with_unnamed_columns_and_str_range(
 
 
 def test_single_sheet_invalid_column_indices_negative_integer(
-    excel_reader_single_sheet_with_unnamed_columns: fastexcel.ExcelReader,
+    excel_reader_single_sheet_with_unnamed_columns: fastexcel_rw.ExcelReader,
 ) -> None:
     expected_message = """invalid parameters: expected list[int] | list[str], got [-2]
 Context:
     0: could not determine selected columns from provided object: [-2]
     1: expected selected columns to be list[str] | list[int] | str | Callable[[ColumnInfo], bool] | None, got Some([-2])
 """
-    with pytest.raises(fastexcel.InvalidParametersError, match=re.escape(expected_message)):
+    with pytest.raises(fastexcel_rw.InvalidParametersError, match=re.escape(expected_message)):
         excel_reader_single_sheet_with_unnamed_columns.load_sheet(0, use_columns=[-2])
 
 
 def test_single_sheet_invalid_column_indices_empty_list(
-    excel_reader_single_sheet_with_unnamed_columns: fastexcel.ExcelReader,
+    excel_reader_single_sheet_with_unnamed_columns: fastexcel_rw.ExcelReader,
 ) -> None:
     expected_message = """invalid parameters: list of selected columns is empty
 Context:
     0: could not determine selected columns from provided object: []
     1: expected selected columns to be list[str] | list[int] | str | Callable[[ColumnInfo], bool] | None, got Some([])
 """
-    with pytest.raises(fastexcel.InvalidParametersError, match=re.escape(expected_message)):
+    with pytest.raises(fastexcel_rw.InvalidParametersError, match=re.escape(expected_message)):
         excel_reader_single_sheet_with_unnamed_columns.load_sheet(0, use_columns=[])
 
 
 def test_single_sheet_invalid_column_indices_column_does_not_exist_str(
-    excel_reader_single_sheet_with_unnamed_columns: fastexcel.ExcelReader,
+    excel_reader_single_sheet_with_unnamed_columns: fastexcel_rw.ExcelReader,
 ) -> None:
     expected_message = """column with name \"nope\" not found
 Context:
     0: available columns are: .*
 """
-    with pytest.raises(fastexcel.ColumnNotFoundError, match=expected_message):
+    with pytest.raises(fastexcel_rw.ColumnNotFoundError, match=expected_message):
         excel_reader_single_sheet_with_unnamed_columns.load_sheet(0, use_columns=["nope"])
 
 
 def test_single_sheet_invalid_column_indices_column_does_not_exist_int(
-    excel_reader_single_sheet_with_unnamed_columns: fastexcel.ExcelReader,
+    excel_reader_single_sheet_with_unnamed_columns: fastexcel_rw.ExcelReader,
 ) -> None:
     expected_message = """column at index 42 not found
 Context:
     0: available columns are: .*
 """
-    with pytest.raises(fastexcel.ColumnNotFoundError, match=expected_message):
+    with pytest.raises(fastexcel_rw.ColumnNotFoundError, match=expected_message):
         excel_reader_single_sheet_with_unnamed_columns.load_sheet(0, use_columns=[42])
 
 
 def test_use_columns_with_column_names() -> None:
-    excel_reader = fastexcel.read_excel(path_for_fixture("fixture-single-sheet-with-types.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-single-sheet-with-types.xlsx"))
 
     sheet = excel_reader.load_sheet(
         0,
@@ -361,28 +361,28 @@ def test_use_columns_with_column_names() -> None:
     )
 
     assert sheet.available_columns() == [
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="__UNNAMED__0",
             column_name_from="generated",
             index=0,
             dtype="float",
             dtype_from="guessed",
         ),
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="bools_renamed",
             index=1,
             dtype="boolean",
             dtype_from="guessed",
             column_name_from="provided",
         ),
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="dates_renamed",
             index=2,
             dtype="datetime",
             dtype_from="guessed",
             column_name_from="provided",
         ),
-        fastexcel.ColumnInfo(
+        fastexcel_rw.ColumnInfo(
             name="__UNNAMED__3",
             index=3,
             dtype="float",
@@ -416,7 +416,7 @@ def test_use_columns_with_column_names() -> None:
 
 
 def test_use_columns_with_callable() -> None:
-    excel_reader = fastexcel.read_excel(path_for_fixture("fixture-multi-sheet.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-multi-sheet.xlsx"))
 
     sheet = excel_reader.load_sheet(2)
     assert (
@@ -452,9 +452,9 @@ def test_use_columns_with_callable() -> None:
 
 
 def test_use_columns_with_bad_callable() -> None:
-    excel_reader = fastexcel.read_excel(path_for_fixture("fixture-multi-sheet.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-multi-sheet.xlsx"))
     with pytest.raises(
-        fastexcel.InvalidParametersError,
+        fastexcel_rw.InvalidParametersError,
         match=re.escape("`use_columns` callable could not be called (TypeError: "),
     ):
         excel_reader.load_sheet(
@@ -463,7 +463,7 @@ def test_use_columns_with_bad_callable() -> None:
         )
 
     with pytest.raises(
-        fastexcel.InvalidParametersError, match="`use_columns` callable should return a boolean"
+        fastexcel_rw.InvalidParametersError, match="`use_columns` callable should return a boolean"
     ):
         excel_reader.load_sheet(
             2,
@@ -472,7 +472,7 @@ def test_use_columns_with_bad_callable() -> None:
 
 
 def test_use_columns_with_eager_loading() -> None:
-    excel_reader = fastexcel.read_excel(path_for_fixture("fixture-single-sheet.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-single-sheet.xlsx"))
     expected_months = [1.0, 2.0]
     expected_years = [2019.0, 2020.0]
 
@@ -523,7 +523,7 @@ def test_use_columns_dtypes_eager_loading(
             if idx % 2 == 0
         ],
     ):
-        excel_reader = fastexcel.read_excel(path_for_fixture(excel_file))
+        excel_reader = fastexcel_rw.read_excel(path_for_fixture(excel_file))
         sheet = excel_reader.load_sheet_eager(0, use_columns=use_columns)
         pd_df = sheet.to_pandas()
         pl_df = pl.from_arrow(data=sheet)
