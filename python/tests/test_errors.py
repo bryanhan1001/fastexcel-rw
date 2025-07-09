@@ -11,8 +11,8 @@ from fastexcel_rw import (
 
 from utils import path_for_fixture
 
-
-# test_cannot_retrieve_data_error was removed as this error type is no longer raised in current version
+# test_cannot_retrieve_data_error was removed as this error type is no longer raised in
+# current version
 
 
 def test_column_not_found_error() -> None:
