@@ -6,14 +6,14 @@ edition = "2024"
 license = "MIT"
 homepage = "https://github.com/ToucanToco/fastexcel"
 repository = "https://github.com/bryanhan1001/fastexcel-rw"
-readme = "README_FORK.md"
+readme = "README.md"
 description = "A fast Excel reader and writer for Python, with writer functionality added"
 authors = ["ToucanToco", "bryanhan <bryanhan1001@gmail.com>"]
 keywords = ["excel", "xlsx", "arrow", "python", "rust"]
 categories = ["data-structures", "parser-implementations"]
 include = [
     "/pyproject.toml",
-    "/README_FORK.md",
+    "/README.md",
     "/README_WRITER.md",
     "/LICENSE",
     "/Makefile",

@@ -15,15 +15,9 @@ jobs:
         architecture: [x86-64, aarch64]
     steps:
     - uses: actions/checkout@v4
-<<<<<<< HEAD
-    - uses: dtolnay/rust-toolchain@nightly
-      with:
-        toolchain: nightly
-=======
     - uses: dtolnay/rust-toolchain@stable
       with:
         toolchain: stable
->>>>>>> main
     - name: Show Rust version
       run: |
         rustc --version
@@ -49,15 +43,9 @@ jobs:
         architecture: [x86-64, aarch64]
     steps:
     - uses: actions/checkout@v4
-<<<<<<< HEAD
-    - uses: dtolnay/rust-toolchain@nightly
-      with:
-        toolchain: nightly
-=======
     - uses: dtolnay/rust-toolchain@stable
       with:
         toolchain: stable
->>>>>>> main
     - name: Show Rust version
       run: |
         rustc --version
@@ -132,6 +120,7 @@ jobs:
     - uses: dtolnay/rust-toolchain@stable
       with:
         toolchain: stable
+    
     # Download all artifacts
     - name: Download all artifacts
       uses: actions/download-artifact@v4
