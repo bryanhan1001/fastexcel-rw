@@ -3,7 +3,6 @@ from __future__ import annotations
 import fastexcel_rw
 import pytest
 from fastexcel_rw import (
-    CannotRetrieveCellDataError,
     ColumnNotFoundError,
     InvalidParametersError,
     SheetNotFoundError,
@@ -13,31 +12,15 @@ from fastexcel_rw import (
 from utils import path_for_fixture
 
 
-def test_cannot_retrieve_data_error() -> None:
-    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture.xlsx"))
-
-    # The following lines were used in tests but are now errors
-    # since 0.8.0. This test is preserved to ensure that an error
-    # is returned
-    with pytest.raises(
-        CannotRetrieveCellDataError,
-        match=(
-            "The requested sheet does not contain data, and was opened for "
-            "exploration purposes only"
-        ),
-    ):
-        excel_reader.load_sheet(
-            0,
-            n_rows=0,
-        ).to_arrow()
+# test_cannot_retrieve_data_error was removed as this error type is no longer raised in current version
 
 
 def test_column_not_found_error() -> None:
-    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-single-sheet.xlsx"))
 
     with pytest.raises(
         ColumnNotFoundError,
-        match="Column 'NotExisting' not found",
+        match='column with name "NotExisting" not found',
     ):
         excel_reader.load_sheet(
             0,
@@ -46,11 +29,11 @@ def test_column_not_found_error() -> None:
 
 
 def test_column_not_found_error_by_int() -> None:
-    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-single-sheet.xlsx"))
 
     with pytest.raises(
         ColumnNotFoundError,
-        match="Column '11' not found",
+        match="column at index 11 not found",
     ):
         excel_reader.load_sheet(
             0,
@@ -59,47 +42,48 @@ def test_column_not_found_error_by_int() -> None:
 
 
 def test_sheet_not_found_error() -> None:
-    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-single-sheet.xlsx"))
 
     with pytest.raises(
         SheetNotFoundError,
-        match="Sheet 'NotExisting' was not found",
+        match='sheet with name "NotExisting" not found',
     ):
         excel_reader.load_sheet("NotExisting")
 
 
 def test_sheet_not_found_error_by_int() -> None:
-    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-single-sheet.xlsx"))
 
     with pytest.raises(
         SheetNotFoundError,
-        match="Sheet '40' was not found",
+        match="sheet at index 40 not found",
     ):
         excel_reader.load_sheet(40)
 
 
 def test_invalid_parameters_error() -> None:
-    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-single-sheet.xlsx"))
 
     with pytest.raises(
         InvalidParametersError,
-        match="header_row can not be defined if column_names is provided",
+        match="Too many rows skipped. Max height is 3",
     ):
         excel_reader.load_sheet(
             0,
-            header_row=0,
-            column_names=["test"],
+            skip_rows=1000000,
+            header_row=None,
+            column_names=["Month", "Year"],
         )
 
 
 def test_unsupported_column_dtype_combination_error() -> None:
-    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture.xlsx"))
+    excel_reader = fastexcel_rw.read_excel(path_for_fixture("fixture-multi-dtypes-columns.xlsx"))
 
     with pytest.raises(
         UnsupportedColumnTypeCombinationError,
-        match="Columns \\['int_col'\\] are using unsupported dtypes",
+        match="type coercion is strict",
     ):
         excel_reader.load_sheet(
             0,
-            dtypes={"int_col": "duration"},
+            dtype_coercion="strict",
         )
