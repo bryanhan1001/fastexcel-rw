@@ -78,11 +78,15 @@ The CI/CD workflows have been updated to:
 **Root Cause**: 
 - Environment variable conflicts between CONDA_PREFIX and VIRTUAL_ENV
 - Complex build process with multiple fallback attempts
+- Git pathspec error: `docs/` directory not found when trying to checkout from main branch
 
 **Solution**:
 - Added `unset CONDA_PREFIX` to clean environment variables
 - Simplified build process to use `maturin develop -E pandas,polars` directly
 - Ensured pdoc is installed before attempting documentation generation
+- **Fixed git pathspec error**: Store generated docs in temporary location instead of trying to checkout from main
+- Clear existing content on gh-pages branch and copy docs directly
+- Added .nojekyll file for proper GitHub Pages support
 - Streamlined deployment process to gh-pages branch
 
 ### Verification
