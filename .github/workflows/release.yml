@@ -11,17 +11,23 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.9"]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
         architecture: [x86-64, aarch64]
     steps:
     - uses: actions/checkout@v4
     - uses: dtolnay/rust-toolchain@stable
+      with:
+        toolchain: stable
+    - name: Show Rust version
+      run: |
+        rustc --version
+        cargo --version
     - name: build (release)
       uses: PyO3/maturin-action@v1
       with:
         manylinux: auto
         command: build
-        args: "--release -o dist"
+        args: "--release -o dist --features writer"
         target: ${{ matrix.architecture == 'aarch64' && 'aarch64-unknown-linux-gnu' || null }}
     - name: Upload wheels
       uses: actions/upload-artifact@v4
@@ -33,16 +39,22 @@ jobs:
     runs-on: macos-14
     strategy:
       matrix:
-        python-version: ["3.9"]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
         architecture: [x86-64, aarch64]
     steps:
     - uses: actions/checkout@v4
     - uses: dtolnay/rust-toolchain@stable
+      with:
+        toolchain: stable
+    - name: Show Rust version
+      run: |
+        rustc --version
+        cargo --version
     - name: build (release)
       uses: PyO3/maturin-action@v1
       with:
         command: build
-        args: "--release -o dist"
+        args: "--release -o dist --features writer"
         target: ${{ matrix.architecture == 'aarch64' && 'aarch64-apple-darwin' || 'x86_64-apple-darwin' }}
     - name: Upload wheels
       uses: actions/upload-artifact@v4
@@ -55,15 +67,21 @@ jobs:
     strategy:
       matrix:
         # amd64 only for windows, as no arm64 runners are available
-        python-version: ["3.9"]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
     steps:
     - uses: actions/checkout@v4
     - uses: dtolnay/rust-toolchain@stable
+      with:
+        toolchain: stable
+    - name: Show Rust version
+      run: |
+        rustc --version
+        cargo --version
     - name: build (release)
       uses: PyO3/maturin-action@v1
       with:
         command: build
-        args: "--release -o dist"
+        args: "--release -o dist --features writer"
     - name: Upload wheels
       uses: actions/upload-artifact@v4
       with:
@@ -75,6 +93,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+      - name: Show Rust version
+        run: |
+          rustc --version
+          cargo --version
       - name: build (sdist)
         uses: PyO3/maturin-action@v1
         with:
@@ -87,7 +111,6 @@ jobs:
           name: sdist
           path: dist
 
-
   # NOTE: Cannot use a matrix here, as we only want a single release
   release:
     name: Release
@@ -95,42 +118,21 @@ jobs:
     needs: [linux, macos, windows, sdist]
     steps:
     - uses: dtolnay/rust-toolchain@stable
-    - name: Download Linux 3.9 wheels for x86-64
+      with:
+        toolchain: stable
+    
+    # Download all artifacts
+    - name: Download all artifacts
       uses: actions/download-artifact@v4
       with:
-        name: "wheels-linux-python-3.9-x86-64"
-        path: wheels-linux
-
-    - name: Download Linux 3.9 wheels for aarch64
-      uses: actions/download-artifact@v4
-      with:
-        name: "wheels-linux-python-3.9-aarch64"
-        path: wheels-linux
-
-    - name: Download MacOS 3.9 wheels for x86-64
-      uses: actions/download-artifact@v4
-      with:
-        name: "wheels-macos-python-3.9-x86-64"
-        path: wheels-macos
-
-    - name: Download MacOS 3.9 wheels for aarch64
-      uses: actions/download-artifact@v4
-      with:
-        name: "wheels-macos-python-3.9-aarch64"
-        path: wheels-macos
-
-    - name: Download Windows 3.9 wheels
-      uses: actions/download-artifact@v4
-      with:
-        name: "wheels-windows-python-3.9"
-        path: wheels-windows
-
-    - name: Download sdist
-      uses: actions/download-artifact@v4
-      with:
-        name: "sdist"
-        path: sdist
-
+        path: dist
+        
+    - name: Flatten directory structure
+      run: |
+        mkdir -p wheels
+        find dist -name "*.whl" -exec cp {} wheels/ \;
+        find dist -name "*.tar.gz" -exec cp {} wheels/ \;
+        ls -la wheels/
 
     - name: Publish to PyPI
       uses: PyO3/maturin-action@v1
@@ -138,14 +140,10 @@ jobs:
         MATURIN_PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
       with:
         command: upload
-        args: "--skip-existing wheels-linux/*.whl wheels-macos/*.whl wheels-windows/*.whl sdist/*.tar.gz"
+        args: "--skip-existing wheels/*"
 
     - name: Release
       uses: softprops/action-gh-release@v2
       with:
         generate_release_notes: true
-        files: |
-          wheels-linux/*.whl
-          wheels-macos/*.whl
-          wheels-windows/*.whl
-          sdist/*.tar.gz
+        files: wheels/*

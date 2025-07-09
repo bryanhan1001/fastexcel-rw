@@ -3,8 +3,8 @@ requires = ["maturin>=1.7.0,<2.0"]
 build-backend = "maturin"
 
 [project]
-name = "fastexcel"
-description = "A fast excel file reader for Python, written in Rust"
+name = "fastexcel-rw"
+description = "A fast excel file reader and writer for Python, written in Rust"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.9"
@@ -34,8 +34,8 @@ pandas = ["pandas>=1.4.4"]
 polars = ["polars>=0.16.14"]
 
 [project.urls]
-"Source Code" = "https://github.com/ToucanToco/fastexcel"
-Issues = "https://github.com/ToucanToco/fastexcel"
+"Source Code" = "https://github.com/bryanhan1001/fastexcel-rw"
+Issues = "https://github.com/bryanhan1001/fastexcel-rw"
 
 [tool.maturin]
 python-source = "python"
