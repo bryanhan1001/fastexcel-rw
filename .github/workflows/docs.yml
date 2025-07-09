@@ -78,29 +78,43 @@ jobs:
           echo "Generating documentation..."
           pdoc -o docs python/fastexcel_rw
           
-      - name: Deploy to gh-pages
-        run: |
-          # Ensure we have something to deploy
-          if [ ! -d "docs" ]; then
-            echo "No docs directory found"
+          # Verify docs were generated
+          if [ ! -d "docs" ] || [ ! -f "docs/index.html" ]; then
+            echo "Documentation generation failed"
             exit 1
           fi
           
+          echo "Documentation generated successfully"
+          ls -la docs/
+          
+      - name: Deploy to gh-pages
+        run: |
+          # Store the generated docs in a temporary location
+          cp -r docs /tmp/generated-docs
+          
+          # Switch to gh-pages branch
           git checkout gh-pages
           
-          # Clear existing docs
-          rm -rf docs || true
+          # Clear existing content
+          rm -rf * || true
+          rm -rf .github || true
           
           # Copy new docs
-          git checkout main -- docs/
+          cp -r /tmp/generated-docs/* .
           
-          # Add and commit
-          git add docs/
+          # Create a .nojekyll file to ensure GitHub Pages works properly
+          touch .nojekyll
+          
+          # Add all files
+          git add .
+          
+          # Check if there are changes to commit
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
           fi
           
+          # Commit and push
           git commit -m "Update documentation from main branch [$(date)]"
           git push origin gh-pages
-          echo "Documentation deployed to gh-pages"
+          echo "Documentation deployed to gh-pages successfully"
