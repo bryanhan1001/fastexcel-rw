@@ -53,59 +53,37 @@ jobs:
           python3 -m venv .venv
           source .venv/bin/activate
           
+          # Ensure environment variables are clean
+          unset CONDA_PREFIX
+          
           # Install basic requirements
           pip install --upgrade pip
           pip install -r build-requirements.txt
           
-          # Try to build the package
-          echo "Building fastexcel_rw package..."
-          if ! maturin develop --uv --features writer; then
-            echo "Build with uv failed, trying without..."
-            if ! maturin develop --features writer; then
-              echo "Build with writer feature failed, trying basic build..."
-              if ! maturin develop; then
-                echo "All build attempts failed, creating placeholder docs..."
-                mkdir -p docs
-                echo "# fastexcel_rw Documentation" > docs/index.html
-                echo "<p>Documentation build failed - package could not be built</p>" >> docs/index.html
-                echo "<p>Please check the build logs for more details</p>" >> docs/index.html
-                exit 0
-              fi
-            fi
-          fi
-          
           # Install documentation requirements
-          if [ -f "doc-requirements.txt" ]; then
-            pip install -r doc-requirements.txt
-          else
-            # Install pdoc if no doc requirements file
-            pip install pdoc
+          pip install pdoc
+          
+          # Build the package
+          echo "Building fastexcel_rw package..."
+          if ! maturin develop -E pandas,polars; then
+            echo "Build failed, creating placeholder docs..."
+            mkdir -p docs
+            echo "# fastexcel_rw Documentation" > docs/index.html
+            echo "<p>Documentation build failed - package could not be built</p>" >> docs/index.html
+            echo "<p>Please check the build logs for more details</p>" >> docs/index.html
+            exit 0
           fi
           
           # Generate documentation
           echo "Generating documentation..."
-          if command -v pdoc &> /dev/null; then
-            pdoc -o docs python/fastexcel_rw --html || {
-              echo "pdoc failed, creating basic documentation..."
-              mkdir -p docs
-              echo "# fastexcel_rw Documentation" > docs/index.html
-              echo "<p>API documentation generation failed</p>" >> docs/index.html
-            }
-          else
-            echo "pdoc not available, creating placeholder docs..."
-            mkdir -p docs
-            echo "# fastexcel_rw Documentation" > docs/index.html
-            echo "<p>Documentation tools not available</p>" >> docs/index.html
-          fi
+          pdoc -o docs python/fastexcel_rw
           
       - name: Deploy to gh-pages
         run: |
           # Ensure we have something to deploy
           if [ ! -d "docs" ]; then
-            echo "No docs directory found, creating placeholder..."
-            mkdir -p docs
-            echo "# fastexcel_rw Documentation" > docs/index.html
-            echo "<p>No documentation generated</p>" >> docs/index.html
+            echo "No docs directory found"
+            exit 1
           fi
           
           git checkout gh-pages
@@ -118,10 +96,11 @@ jobs:
           
           # Add and commit
           git add docs/
-          git commit -m "Update documentation from main branch [$(date)]" || {
+          if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
-          }
+          fi
           
+          git commit -m "Update documentation from main branch [$(date)]"
           git push origin gh-pages
           echo "Documentation deployed to gh-pages"

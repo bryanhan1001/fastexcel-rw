@@ -1,5 +1,3 @@
-
-
 import fastexcel_rw
 import pyarrow as pa
 

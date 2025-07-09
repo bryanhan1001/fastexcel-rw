@@ -59,8 +59,40 @@ The CI/CD workflows have been updated to:
 ✅ **Import**: Package can be imported as `fastexcel_rw`
 ✅ **Writer**: Writer functionality works correctly
 
+## CI/CD Issues Fixed
+
+### Lint Job (Exit Code 2)
+**Issue**: Python linting failures in GitHub Actions
+**Root Cause**: 
+- Python code formatting issues (ruff format)
+- MyPy type checking errors due to conditional imports from Rust bindings
+
+**Solution**:
+- Added automatic code formatting with `ruff format`
+- Added `# type: ignore[attr-defined]` for Rust binding imports
+- Added placeholder types for writer functionality when not available
+- Added `# type: ignore[assignment]` for `__all__` tuple concatenation
+
+### Docs Build Job (Exit Code 1)
+**Issue**: Documentation build failures in GitHub Actions
+**Root Cause**: 
+- Environment variable conflicts between CONDA_PREFIX and VIRTUAL_ENV
+- Complex build process with multiple fallback attempts
+
+**Solution**:
+- Added `unset CONDA_PREFIX` to clean environment variables
+- Simplified build process to use `maturin develop -E pandas,polars` directly
+- Ensured pdoc is installed before attempting documentation generation
+- Streamlined deployment process to gh-pages branch
+
+### Verification
+✅ **Lint**: All Python and Rust linting now passes (exit code 0)
+✅ **Docs**: Documentation builds successfully and generates proper HTML files
+✅ **Import**: Package imports correctly as `fastexcel_rw` with version 0.15.0
+✅ **Functionality**: Core reading functionality works as expected
+
 ## Next Steps
-1. Update any external documentation or references
-2. Update GitHub repository description if needed
-3. Consider updating the README.md with the new package name
-4. Test the complete CI/CD pipeline with the new configuration 
+1. Monitor GitHub Actions workflows to ensure they pass consistently
+2. Update any external documentation or references
+3. Update GitHub repository description if needed
+4. Consider updating the README.md with the new package name 

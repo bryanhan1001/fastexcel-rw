@@ -142,9 +142,9 @@ def test_multiple_sheets():
 
 
 def test_sheets_with_header_line_diff_from_zero():
-    excel_reader = fastexcel_rw.read_excel((
-        path_for_fixture("fixture-changing-header-location.xlsx")
-    ))
+    excel_reader = fastexcel_rw.read_excel(
+        (path_for_fixture("fixture-changing-header-location.xlsx"))
+    )
     assert excel_reader.sheet_names == ["Sheet1", "Sheet2", "Sheet3"]
     sheet_by_name = excel_reader.load_sheet("Sheet1", header_row=1)
     sheet_by_idx = excel_reader.load_sheet(0, header_row=1)
@@ -166,9 +166,9 @@ def test_sheets_with_header_line_diff_from_zero():
 
 
 def test_sheets_with_no_header():
-    excel_reader = fastexcel_rw.read_excel((
-        path_for_fixture("fixture-changing-header-location.xlsx")
-    ))
+    excel_reader = fastexcel_rw.read_excel(
+        (path_for_fixture("fixture-changing-header-location.xlsx"))
+    )
     assert excel_reader.sheet_names == ["Sheet1", "Sheet2", "Sheet3"]
     sheet_by_name = excel_reader.load_sheet("Sheet2", header_row=None)
     sheet_by_idx = excel_reader.load_sheet(1, header_row=None)
@@ -194,9 +194,9 @@ def test_sheets_with_no_header():
 
 
 def test_sheets_with_empty_rows_before_header():
-    excel_reader = fastexcel_rw.read_excel((
-        path_for_fixture("fixture-changing-header-location.xlsx")
-    ))
+    excel_reader = fastexcel_rw.read_excel(
+        (path_for_fixture("fixture-changing-header-location.xlsx"))
+    )
     assert excel_reader.sheet_names == ["Sheet1", "Sheet2", "Sheet3"]
     sheet_by_name = excel_reader.load_sheet("Sheet3")
     sheet_by_idx = excel_reader.load_sheet(2)
@@ -218,9 +218,9 @@ def test_sheets_with_empty_rows_before_header():
 
 
 def test_sheets_with_custom_headers():
-    excel_reader = fastexcel_rw.read_excel((
-        path_for_fixture("fixture-changing-header-location.xlsx")
-    ))
+    excel_reader = fastexcel_rw.read_excel(
+        (path_for_fixture("fixture-changing-header-location.xlsx"))
+    )
     assert excel_reader.sheet_names == ["Sheet1", "Sheet2", "Sheet3"]
     sheet_by_name = excel_reader.load_sheet(
         "Sheet2", header_row=None, column_names=["foo", "bar", "baz"]
@@ -244,9 +244,9 @@ def test_sheets_with_custom_headers():
 
 
 def test_sheets_with_skipping_headers():
-    excel_reader = fastexcel_rw.read_excel((
-        path_for_fixture("fixture-changing-header-location.xlsx")
-    ))
+    excel_reader = fastexcel_rw.read_excel(
+        (path_for_fixture("fixture-changing-header-location.xlsx"))
+    )
     assert excel_reader.sheet_names == ["Sheet1", "Sheet2", "Sheet3"]
     sheet_by_name = excel_reader.load_sheet("Sheet2", header_row=None, column_names=["Bugs"])
     sheet_by_idx = excel_reader.load_sheet(1, header_row=None, column_names=["Bugs"])

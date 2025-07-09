@@ -41,10 +41,19 @@ from ._fastexcel import read_excel as _read_excel
 
 # 条件导入写入功能
 try:
-    from ._fastexcel import ExcelWriter, create_excel_writer
+    from ._fastexcel import ExcelWriter, create_excel_writer  # type: ignore[attr-defined]
+
     _WRITER_AVAILABLE = True
 except ImportError:
     _WRITER_AVAILABLE = False
+
+    # 定义占位符类型以避免mypy错误
+    class ExcelWriter:  # type: ignore[no-redef]
+        pass
+
+    def create_excel_writer(file_path: str) -> ExcelWriter:
+        raise ImportError("Writer functionality not available")
+
 
 DType = Literal["null", "int", "float", "string", "boolean", "datetime", "date", "duration"]
 DTypeMap: TypeAlias = "dict[str | int, DType]"
@@ -523,9 +532,9 @@ def read_excel(source: Path | str | bytes) -> ExcelReader:
 
 def create_writer(file_path: str | Path) -> "ExcelWriter":
     """Creates a new Excel writer.
-    
+
     Requires the 'writer' feature to be enabled.
-    
+
     :param file_path: The path where the Excel file will be saved
     :return: An ExcelWriter instance
     """
@@ -534,10 +543,10 @@ def create_writer(file_path: str | Path) -> "ExcelWriter":
             "Writing functionality is not available. "
             "Please install fastexcel with writer support: pip install fastexcel[writer]"
         )
-    
+
     if isinstance(file_path, Path):
         file_path = str(file_path)
-        
+
     return create_excel_writer(file_path)
 
 
@@ -574,7 +583,7 @@ __all__ = (
 
 # 添加写入功能到导出列表（如果可用）
 if _WRITER_AVAILABLE:
-    __all__ = __all__ + (
+    __all__ = __all__ + (  # type: ignore[assignment]
         "create_writer",
         "ExcelWriter",
     )
