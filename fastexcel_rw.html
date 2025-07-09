@@ -120,19 +120,19 @@
                     <a class="class" href="#ColumnInfo">ColumnInfo</a>
                             <ul class="memberlist">
                         <li>
-                                <a class="variable" href="#ColumnInfo.name">name</a>
+                                <a class="variable" href="#ColumnInfo.column_name_from">column_name_from</a>
                         </li>
                         <li>
-                                <a class="variable" href="#ColumnInfo.dtype_from">dtype_from</a>
+                                <a class="variable" href="#ColumnInfo.index">index</a>
                         </li>
                         <li>
                                 <a class="variable" href="#ColumnInfo.dtype">dtype</a>
                         </li>
                         <li>
-                                <a class="variable" href="#ColumnInfo.column_name_from">column_name_from</a>
+                                <a class="variable" href="#ColumnInfo.dtype_from">dtype_from</a>
                         </li>
                         <li>
-                                <a class="variable" href="#ColumnInfo.index">index</a>
+                                <a class="variable" href="#ColumnInfo.name">name</a>
                         </li>
                 </ul>
 
@@ -144,13 +144,13 @@
                                 <a class="variable" href="#CellError.row_offset">row_offset</a>
                         </li>
                         <li>
-                                <a class="variable" href="#CellError.offset_position">offset_position</a>
+                                <a class="variable" href="#CellError.position">position</a>
                         </li>
                         <li>
                                 <a class="variable" href="#CellError.detail">detail</a>
                         </li>
                         <li>
-                                <a class="variable" href="#CellError.position">position</a>
+                                <a class="variable" href="#CellError.offset_position">offset_position</a>
                         </li>
                 </ul>
 
@@ -2145,53 +2145,6 @@ therefore converted to None.</p>
 </div>
 
 
-                            <div id="ColumnInfo.name" class="classattr">
-                                <div class="attr variable">
-            <span class="name">name</span>
-
-        
-    </div>
-    <a class="headerlink" href="#ColumnInfo.name"></a>
-    
-            <div class="docstring"><p><code>str</code>. The name of the column</p>
-</div>
-
-
-                            </div>
-                            <div id="ColumnInfo.dtype_from" class="classattr">
-                                <div class="attr variable">
-            <span class="name">dtype_from</span>
-
-        
-    </div>
-    <a class="headerlink" href="#ColumnInfo.dtype_from"></a>
-    
-            <div class="docstring"><p><code>fastexcel.DTypeFrom</code>. How the dtype of the column was determined.</p>
-
-<p>One of three possible values:</p>
-
-<ul>
-<li><code>"provided_by_index"</code>: The dtype was specified via the column index</li>
-<li><code>"provided_by_name"</code>: The dtype was specified via the column name</li>
-<li><code>"guessed"</code>: The dtype was determined from the content of the column</li>
-</ul>
-</div>
-
-
-                            </div>
-                            <div id="ColumnInfo.dtype" class="classattr">
-                                <div class="attr variable">
-            <span class="name">dtype</span>
-
-        
-    </div>
-    <a class="headerlink" href="#ColumnInfo.dtype"></a>
-    
-            <div class="docstring"><p><code>fastexcel.DType</code>. The dtype of the column</p>
-</div>
-
-
-                            </div>
                             <div id="ColumnInfo.column_name_from" class="classattr">
                                 <div class="attr variable">
             <span class="name">column_name_from</span>
@@ -2227,6 +2180,53 @@ therefore converted to None.</p>
 
 
                             </div>
+                            <div id="ColumnInfo.dtype" class="classattr">
+                                <div class="attr variable">
+            <span class="name">dtype</span>
+
+        
+    </div>
+    <a class="headerlink" href="#ColumnInfo.dtype"></a>
+    
+            <div class="docstring"><p><code>fastexcel.DType</code>. The dtype of the column</p>
+</div>
+
+
+                            </div>
+                            <div id="ColumnInfo.dtype_from" class="classattr">
+                                <div class="attr variable">
+            <span class="name">dtype_from</span>
+
+        
+    </div>
+    <a class="headerlink" href="#ColumnInfo.dtype_from"></a>
+    
+            <div class="docstring"><p><code>fastexcel.DTypeFrom</code>. How the dtype of the column was determined.</p>
+
+<p>One of three possible values:</p>
+
+<ul>
+<li><code>"provided_by_index"</code>: The dtype was specified via the column index</li>
+<li><code>"provided_by_name"</code>: The dtype was specified via the column name</li>
+<li><code>"guessed"</code>: The dtype was determined from the content of the column</li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div id="ColumnInfo.name" class="classattr">
+                                <div class="attr variable">
+            <span class="name">name</span>
+
+        
+    </div>
+    <a class="headerlink" href="#ColumnInfo.name"></a>
+    
+            <div class="docstring"><p><code>str</code>. The name of the column</p>
+</div>
+
+
+                            </div>
                 </section>
                 <section id="CellError">
                     <div class="attr class">
@@ -2253,15 +2253,17 @@ therefore converted to None.</p>
 
 
                             </div>
-                            <div id="CellError.offset_position" class="classattr">
+                            <div id="CellError.position" class="classattr">
                                 <div class="attr variable">
-            <span class="name">offset_position</span>
+            <span class="name">position</span>
 
         
     </div>
-    <a class="headerlink" href="#CellError.offset_position"></a>
+    <a class="headerlink" href="#CellError.position"></a>
     
-    
+            <div class="docstring"><p><code>(int, int)</code>. The original row and column of the error</p>
+</div>
+
 
                             </div>
                             <div id="CellError.detail" class="classattr">
@@ -2277,17 +2279,15 @@ therefore converted to None.</p>
 
 
                             </div>
-                            <div id="CellError.position" class="classattr">
+                            <div id="CellError.offset_position" class="classattr">
                                 <div class="attr variable">
-            <span class="name">position</span>
+            <span class="name">offset_position</span>
 
         
     </div>
-    <a class="headerlink" href="#CellError.position"></a>
+    <a class="headerlink" href="#CellError.offset_position"></a>
     
-            <div class="docstring"><p><code>(int, int)</code>. The original row and column of the error</p>
-</div>
-
+    
 
                             </div>
                 </section>
