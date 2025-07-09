@@ -60,6 +60,9 @@ jobs:
           python3 -m venv .venv
           source .venv/bin/activate
 
+          # Ensure clean environment for maturin
+          unset CONDA_PREFIX
+
           make install-test-requirements
           make install-doc-requirements
           # Required for pdoc to be able to import the sources
@@ -96,7 +99,10 @@ jobs:
         make install-test-requirements
 
     - name: Test
-      run: make test-ci
+      run: |
+        # Ensure clean environment for maturin
+        unset CONDA_PREFIX
+        make test-ci
 
   check-wheel-build:
     runs-on: ${{ matrix.os }}
