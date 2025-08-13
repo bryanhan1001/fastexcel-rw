@@ -17,7 +17,7 @@ jobs:
         python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
         architecture: [x86-64, aarch64]
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: dtolnay/rust-toolchain@stable
       with:
         toolchain: stable
@@ -45,7 +45,7 @@ jobs:
         python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
         architecture: [x86-64, aarch64]
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: dtolnay/rust-toolchain@stable
       with:
         toolchain: stable
@@ -72,7 +72,7 @@ jobs:
         # amd64 only for windows, as no arm64 runners are available
         python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: dtolnay/rust-toolchain@stable
       with:
         toolchain: stable
@@ -94,7 +94,7 @@ jobs:
   sdist:
     runs-on: "ubuntu-latest"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
