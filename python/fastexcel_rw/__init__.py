@@ -29,6 +29,7 @@ from ._fastexcel import (
     ColumnInfoNoDtype,
     ColumnNotFoundError,
     FastExcelError,
+    InternalError,
     InvalidParametersError,
     SheetNotFoundError,
     UnsupportedColumnTypeCombinationError,
@@ -541,7 +542,8 @@ def create_writer(file_path: str | Path) -> "ExcelWriter":
     if not _WRITER_AVAILABLE:
         raise ImportError(
             "Writing functionality is not available. "
-            "Please install fastexcel with writer support: pip install fastexcel[writer]"
+            "Please reinstall with writer support: pip install fastexcel-rw[writer] "
+            "or build with: maturin develop --features writer"
         )
 
     if isinstance(file_path, Path):
@@ -571,6 +573,7 @@ __all__ = (
     "CellErrors",
     # Exceptions
     "FastExcelError",
+    "InternalError",
     "CannotRetrieveCellDataError",
     "CalamineCellError",
     "CalamineError",

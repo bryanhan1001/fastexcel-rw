@@ -2,7 +2,7 @@
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.9+-blue.svg)
-![Rust](https://img.shields.io/badge/rust-1.88.0-orange.svg)
+![Rust](https://img.shields.io/badge/rust-1.85+-orange.svg)
 ![Performance](https://img.shields.io/badge/performance-3.8x%20faster-brightgreen.svg)
 
 This is a fork of [ToucanToco/fastexcel](https://github.com/ToucanToco/fastexcel) with **Excel writing functionality** added.
@@ -15,7 +15,7 @@ This fork extends the original fastexcel library with:
 - **Multiple Data Types**: Support for strings, numbers, booleans, and more
 - **Multi-worksheet**: Create and manage multiple worksheets
 - **Pandas Integration**: Direct DataFrame writing support
-- **Rust 1.88.0 Support**: Updated to latest Rust version
+- **Rust 1.85+ Support**: Updated Rust toolchain requirements
 
 ## 📈 Performance
 

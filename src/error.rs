@@ -216,7 +216,7 @@ pub(crate) mod py_errors {
                 FastExcelErrorKind::InvalidParameters(_) => {
                     InvalidParametersError::new_err(message)
                 }
-                FastExcelErrorKind::Internal(_) => ArrowError::new_err(message),
+                FastExcelErrorKind::Internal(_) => InternalError::new_err(message),
             }
         }
     }

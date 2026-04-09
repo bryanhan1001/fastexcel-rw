@@ -2,7 +2,7 @@
 name = "fastexcel_rw"
 version = "0.15.0"
 rust-version = "1.85.0"
-edition = "2024"
+edition = "2021"
 license = "MIT"
 homepage = "https://github.com/ToucanToco/fastexcel"
 repository = "https://github.com/bryanhan1001/fastexcel-rw"

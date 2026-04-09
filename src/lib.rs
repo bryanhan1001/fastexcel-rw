@@ -104,6 +104,10 @@ fn _fastexcel(m: &Bound<'_, PyModule>) -> PyResult<()> {
             "InvalidParametersError",
             py.get_type::<py_errors::InvalidParametersError>(),
         ),
+        (
+            "InternalError",
+            py.get_type::<py_errors::InternalError>(),
+        ),
     ]
     .into_iter()
     .try_for_each(|(exc_name, exc_type)| m.add(exc_name, exc_type))
